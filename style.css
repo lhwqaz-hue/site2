@@ -1,0 +1,138 @@
+/* 전역 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+/* 헤더 & 네비게이션 */
+header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav h1 {
+    font-size: 1.8rem;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
+
+/* 메인 콘텐츠 */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 히어로 섹션 */
+.hero {
+    background: white;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #667eea;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* 콘텐츠 섹션 */
+.content-section {
+    background: white;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.content-section h2 {
+    color: #667eea;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.content-section p {
+    margin-bottom: 0.8rem;
+    color: #555;
+}
+
+.content-section a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.content-section a:hover {
+    text-decoration: underline;
+}
+
+/* 푸터 */
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    nav ul {
+        gap: 1rem;
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+    }
+
+    .content-section h2 {
+        font-size: 1.5rem;
+    }
+}
