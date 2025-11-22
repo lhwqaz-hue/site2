@@ -151,26 +151,48 @@ async function saveNote() {
         saveBtn.disabled = true;
         saveBtn.textContent = '저장 중...';
         
-        // 기존 메모 확인
-        const { data: existingNote } = await supabase
+        // 기존 메모 전체 조회 (중복 체크)
+        const { data: existingNotes, error: fetchError } = await supabase
             .from('notes')
-            .select('id')
+            .select('id, created_at')
             .eq('user_id', currentUser.id)
-            .single();
+            .order('created_at', { ascending: false });
         
-        if (existingNote) {
-            // 업데이트
+        if (fetchError) {
+            console.error('메모 조회 오류:', fetchError);
+            throw fetchError;
+        }
+        
+        console.log('기존 메모 개수:', existingNotes?.length || 0);
+        
+        if (existingNotes && existingNotes.length > 0) {
+            // 가장 최근 메모만 남기고 나머지 삭제
+            const [latestNote, ...oldNotes] = existingNotes;
+            
+            if (oldNotes.length > 0) {
+                console.log('중복 메모 삭제:', oldNotes.length + '개');
+                const oldIds = oldNotes.map(note => note.id);
+                await supabase
+                    .from('notes')
+                    .delete()
+                    .in('id', oldIds);
+            }
+            
+            // 최신 메모 업데이트
+            console.log('메모 업데이트 시도:', latestNote.id);
             const { error } = await supabase
                 .from('notes')
                 .update({ 
                     content, 
                     updated_at: new Date().toISOString() 
                 })
-                .eq('id', existingNote.id);
+                .eq('id', latestNote.id);
             
             if (error) throw error;
+            console.log('메모 업데이트 완료');
         } else {
             // 새로 생성
+            console.log('새 메모 생성 시도');
             const { error } = await supabase
                 .from('notes')
                 .insert([{ 
@@ -179,6 +201,7 @@ async function saveNote() {
                 }]);
             
             if (error) throw error;
+            console.log('새 메모 생성 완료');
         }
         
         updateLastSaved();
@@ -200,20 +223,28 @@ async function loadNote() {
         loadBtn.disabled = true;
         loadBtn.textContent = '불러오는 중...';
         
+        console.log('메모 불러오기 시도, user_id:', currentUser.id);
+        
+        // 최신 메모 1개만 가져오기
         const { data, error } = await supabase
             .from('notes')
             .select('*')
             .eq('user_id', currentUser.id)
-            .single();
+            .order('updated_at', { ascending: false })
+            .limit(1);
         
-        if (error && error.code !== 'PGRST116') {
+        if (error) {
+            console.error('메모 불러오기 오류:', error);
             throw error;
         }
         
-        if (data) {
-            notepad.value = data.content || '';
+        console.log('불러온 데이터:', data);
+        
+        if (data && data.length > 0) {
+            const latestNote = data[0];
+            notepad.value = latestNote.content || '';
             updateStats();
-            updateLastSaved(data.updated_at);
+            updateLastSaved(latestNote.updated_at);
             showNotification('메모를 불러왔습니다! 📥');
         } else {
             notepad.value = '';
