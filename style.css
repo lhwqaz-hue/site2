@@ -46,6 +46,68 @@ main {
     padding: 2rem;
 }
 
+/* 로그인 섹션 */
+.auth-section {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.auth-box {
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.auth-box h2 {
+    color: #667eea;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.auth-box input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.auth-box input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.auth-hint {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+/* 사용자 정보 */
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f0f0f0;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.user-info span {
+    font-weight: 600;
+    color: #667eea;
+}
+
+.btn-small {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.9rem !important;
+}
+
 /* 에디터 섹션 */
 .editor-section {
     margin-bottom: 1.5rem;
@@ -89,12 +151,17 @@ main {
     transition: all 0.3s ease;
 }
 
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .btn-primary {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
@@ -104,7 +171,7 @@ main {
     color: white;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover:not(:disabled) {
     background: #d32f2f;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
@@ -115,7 +182,7 @@ main {
     color: white;
 }
 
-.btn-success:hover {
+.btn-success:hover:not(:disabled) {
     background: #45a049;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
@@ -150,6 +217,7 @@ main {
     margin-bottom: 0.8rem;
     padding-left: 1.5rem;
     position: relative;
+    font-size: 0.95rem;
 }
 
 .info-box ul li::before {
@@ -176,6 +244,7 @@ footer {
     text-align: center;
     color: #666;
     border-top: 1px solid #e0e0e0;
+    font-size: 0.9rem;
 }
 
 /* 알림 */
@@ -200,6 +269,16 @@ footer {
 
 .notification.error {
     background: #f44336;
+}
+
+.notification.info {
+    background: #2196f3;
+}
+
+/* 로딩 상태 */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
 }
 
 /* 반응형 디자인 */
@@ -235,5 +314,9 @@ footer {
     #notepad {
         min-height: 250px;
         font-size: 0.9rem;
+    }
+
+    .auth-section {
+        max-width: 100%;
     }
 }

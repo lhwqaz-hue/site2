@@ -3,55 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="URL 기반 메모장">
-    <title>간편 메모장</title>
+    <meta name="description" content="Supabase 기반 메모장">
+    <title>클라우드 메모장</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>📝 간편 메모장</h1>
-            <p class="subtitle">URL로 메모를 저장하고 공유하세요</p>
+            <h1>☁️ 클라우드 메모장</h1>
+            <p class="subtitle">Supabase로 안전하게 저장되는 메모장</p>
         </header>
 
         <main>
-            <div class="editor-section">
-                <textarea id="notepad" placeholder="여기에 메모를 작성하세요..."></textarea>
+            <!-- 로그인 섹션 -->
+            <div id="authSection" class="auth-section">
+                <div class="auth-box">
+                    <h2>🔐 로그인</h2>
+                    <input type="text" id="username" placeholder="사용자 이름 (4자 이상)" maxlength="20">
+                    <input type="password" id="password" placeholder="비밀번호 (6자 이상)" maxlength="50">
+                    <button id="loginBtn" class="btn btn-primary">로그인</button>
+                    <p class="auth-hint">💡 처음이라면 자동으로 계정이 생성됩니다</p>
+                </div>
             </div>
 
-            <div class="controls">
-                <button id="saveBtn" class="btn btn-primary">💾 URL로 저장</button>
-                <button id="clearBtn" class="btn btn-secondary">🗑️ 초기화</button>
-                <button id="copyBtn" class="btn btn-success">📋 URL 복사</button>
-            </div>
-
-            <div class="info-section">
-                <div class="info-box">
-                    <h3>📌 사용 방법</h3>
-                    <ul>
-                        <li><strong>작성:</strong> 위 텍스트 영역에 메모를 작성합니다</li>
-                        <li><strong>저장:</strong> "URL로 저장" 버튼을 클릭하면 URL에 메모가 저장됩니다</li>
-                        <li><strong>공유:</strong> "URL 복사" 버튼으로 링크를 복사하여 다른 사람과 공유할 수 있습니다</li>
-                        <li><strong>자동저장:</strong> 브라우저 로컬 저장소에도 자동으로 저장됩니다</li>
-                    </ul>
+            <!-- 메모 섹션 (로그인 후 표시) -->
+            <div id="noteSection" class="note-section" style="display: none;">
+                <div class="user-info">
+                    <span id="currentUser">사용자: -</span>
+                    <button id="logoutBtn" class="btn btn-small">로그아웃</button>
                 </div>
 
-                <div class="info-box stats">
-                    <h3>📊 통계</h3>
-                    <p>문자 수: <span id="charCount">0</span></p>
-                    <p>단어 수: <span id="wordCount">0</span></p>
-                    <p>줄 수: <span id="lineCount">0</span></p>
+                <div class="editor-section">
+                    <textarea id="notepad" placeholder="여기에 메모를 작성하세요..."></textarea>
+                </div>
+
+                <div class="controls">
+                    <button id="saveBtn" class="btn btn-primary">💾 저장</button>
+                    <button id="loadBtn" class="btn btn-success">📥 불러오기</button>
+                    <button id="clearBtn" class="btn btn-secondary">🗑️ 초기화</button>
+                </div>
+
+                <div class="info-section">
+                    <div class="info-box">
+                        <h3>📌 사용 방법</h3>
+                        <ul>
+                            <li><strong>작성:</strong> 텍스트 영역에 메모를 작성합니다</li>
+                            <li><strong>저장:</strong> "저장" 버튼으로 Supabase에 저장됩니다</li>
+                            <li><strong>불러오기:</strong> 저장된 메모를 다시 불러옵니다</li>
+                            <li><strong>자동저장:</strong> 5초마다 자동으로 저장됩니다</li>
+                            <li><strong>보안:</strong> 비밀번호는 해시화되어 안전하게 저장됩니다</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box stats">
+                        <h3>📊 통계</h3>
+                        <p>문자 수: <span id="charCount">0</span></p>
+                        <p>단어 수: <span id="wordCount">0</span></p>
+                        <p>줄 수: <span id="lineCount">0</span></p>
+                        <p>마지막 저장: <span id="lastSaved">-</span></p>
+                    </div>
                 </div>
             </div>
         </main>
 
         <footer>
-            <p>💡 Tip: URL을 북마크하면 메모를 언제든 다시 볼 수 있습니다!</p>
+            <p>🔒 Supabase로 안전하게 저장됩니다 | 무료 계정으로 최대 500MB까지 사용 가능</p>
         </footer>
     </div>
 
     <div id="notification" class="notification"></div>
 
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Config 파일 (API 키 포함) -->
+    <script src="config.js"></script>
+    <!-- Main App -->
     <script src="app.js"></script>
 </body>
 </html>
